@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>I'm a Celebrity</title>
+        <script src="https://kit.fontawesome.com/d539734335.js" crossorigin="anonymous"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/vue@2.6.12/dist/vue.js"></script>
+        <link href={{ url_for('static', filename='css/styles.css') }} rel="stylesheet"/>
+    </head>
+    <body>
+        <div id='WebContainer'>
+            <!--Header & Buttons-->
+            <img src="/static/images/logo.png" alt="tcd logo" id="tcdLogo">
+            <div id='title'>I'm a Celebrity</div>
+            <button v-on:click="show_answer_field" id="answer_button">Ready to Guess</button>
+            <button v-on:click="get_persona" id='bot_button'>Get Personality <i class="fas fa-brain"></i></button>
+            <button v-on:click="start_bot" id='start_button'>Start Bot <i class="fas fa-robot"></i></button>
+            <button v-on:click="show_about" id='a_button'>About <i class="fas fa-book-open"></i></button>
+            <button v-on:click="show_instructions" id='i_button'>Instructions <i class="fas fa-info-circle"></i></button>
+            <div id='popup'>Popup</div>
+            <!--Bot Start-->
+            <div id='bot_frame'>
+                <div id='bot_body'>
+                    <div id='messages'></div>
+                </div>
+                <div id='user_input'>
+                    <input v-model='bot_input' id='input' placeholder="Send Message">
+                    <button v-on:click="reply_to_bot" id='send'><i class="fas fa-chevron-circle-right"></i></button>
+                </div>
+            </div>
+            <!--Bot End-->
+        </div>
+        <script>
+            var app = new Vue({
+                el: '#WebContainer',
+                data: {
+                    bot_input: '',
+                    bot_initialised: false,
+                    user_answer: '',
+                    current_key: ''
+                },
+                methods: {
+                    start_bot: startBot,
+                    get_persona: get_persona,
+                    reply_to_bot: reply_to_bot,
+                    append_messages: append_messages
+                }
+            });
+            
+            let answers = {
+                "shane": ["Shane Dawson", "shane dawson"],
+                "ariana": ["Ariana Grande", "ariana grande"],
+                "trump": ["Donald Trump", "donald trump"],
+                "kim": ["Kim Kardashian", "kim kardashian"],
+                "kylie": ["Kylie Jenner", "kylie jenner"],
+                "zendaya": ["zendaya", "Zendaya"],
+                "justin": ["Justin Bieber", "justin bieber"]
+            };
+
+            function checkGuess(){
+                let options = answers[this.current_key];
+                for(a in options){
+                    if(this.user_answer == a){
+                        console.log("correct");
+                    }
+                }
+                console.log("incorrect");
+            }
+
+            function startBot(){
+                append_messages("Give me a second...", true);
+                console.log("Starting Bot...");
+                fetch('/start_bot').then(function(response){
+                    return response.json();
+                }).then(function(json){
+                    console.log(json);
+                    append_messages("I'm ready! Get me a personality.", true);
+                });
+                this.bot_initialised = true;
+            }
+
+            function get_persona(){
+                if(this.bot_initialised){
+                    console.log("get_persona Called...");
+                    fetch('/get_persona').then(function(response){
+                        return response.json();
+                    }).then(function(json){
+                        console.log(json);
+                        this.current_key = json.key;
+                        append_messages(json.persona, true);
+                        checkGuess();
+                    });
+                }
+                else{
+                    append_messages("Opps! You forgot to start me up. Please click 'Start Bot'.", true);
+                }
+            }
+
+            function reply_to_bot(){
+                append_messages(this.bot_input, false);
+                fetch('/reply_to_bot', {
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    method: 'POST',
+                    body: JSON.stringify({
+                        "user_reply" : this.bot_input
+                    })
+                }).then(function(response){
+                    return response.json();
+                }).then(function(json){
+                    console.log(json);
+                    append_messages(json.reply, true);
+                });
+            }
+
+            function append_messages(text, isBot){
+                let messages = document.getElementById("messages");
+                let new_message = document.createElement("div");
+                let newP = document.createElement("p");
+                let newSpan = document.createElement("span");
+                let pointEnd = document.createElement("span");
+                new_message.setAttribute("class", "message_parent");
+                if(isBot){
+                    newP.setAttribute("class", "bot_message");
+                    pointEnd.setAttribute("id", "bot_point");
+                }
+                else{
+                    newP.setAttribute("class", "user_message");
+                    pointEnd.setAttribute("id", "user_point");
+                }
+                newSpan.setAttribute("class", "this_message");
+                newSpan.innerHTML = text;
+                newP.appendChild(newSpan);
+                newP.appendChild(pointEnd);
+                new_message.appendChild(newP);
+                messages.appendChild(new_message);
+                $("#bot_body").animate({ scrollTop: $("#bot_body")[0].scrollHeight }, 200);
+            }
+
+            //Send on Enter
+            let input = document.getElementById('input');
+            input.addEventListener("keyup", function(event){
+                if(event.keyCode === 13){
+                    document.getElementById('send').click();
+                    input.value = "";
+                }
+            });
+        </script>
+    </body>
+</html>
