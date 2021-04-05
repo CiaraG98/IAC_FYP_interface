@@ -1,4 +1,5 @@
 runtime: python
+api_version: 1
 env: flex
 entrypoint: gunicorn -b :$PORT app:app
 
