@@ -61,7 +61,9 @@ def initialise():
     	torch.random.manual_seed(args.seed)
     	torch.cuda.manual_seed(args.seed)
 
-
+    s = "Runs as far as #fine-tuning"
+    return s
+    """
     # Fine-Tuning
     logger.info("Get pretrained model and tokenizer")
     tokenizer_class, model_class = (OpenAIGPTTokenizer, OpenAIGPTLMHeadModel)
@@ -73,6 +75,7 @@ def initialise():
     #logger.info("Sample a personality (should send to html)")
     history = []
     return tokenizer, model, args, history
+    """
 
 def get_persona_key(persona):
     for p in PERSONA_KEYWORDS.keys():

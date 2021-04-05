@@ -14,6 +14,10 @@ def home():
 
 @app.route("/start_bot", methods=['GET'])
 def start_bot():
+    test = initialise()
+    return jsonify({"testMessage": test})
+    
+    """
     global tokenizer
     global model
     global args
@@ -24,6 +28,7 @@ def start_bot():
         return jsonify(message)
     else:
         return jsonify({"status": "Problem Starting Bot"})
+    """
 
 @app.route("/get_persona", methods=['GET'])
 def get_persona():

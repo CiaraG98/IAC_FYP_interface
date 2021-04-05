@@ -71,6 +71,7 @@
                 append_messages("Give me a second...", true);
                 console.log("Starting Bot...");
                 fetch('/start_bot').then(function(response){
+                    console.log(response);
                     return response.json();
                 }).then(function(json){
                     console.log(json);
