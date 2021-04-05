@@ -27,6 +27,7 @@ PERSONA_KEYWORDS = {
 }
 
 def initialise():
+    s = "Runs as far as argparser"
     """Initialise onjects for model"""
     parser = ArgumentParser()
     parser.add_argument("--dataset_path", type=str, default="", help="Path or url of the dataset. If empty download from S3.")
