@@ -21,13 +21,11 @@ PERSONACHAT_URL = "./celebs_dialog_dataset.json"
 #CACHED_BOT = "./model_/model.75f2a4fe69178ff43138117a977e107a5fc7d402603a0825a296b531f246b3f2"
 FINE_TUNED_BOT = "./tempdir/model_/model.75f2a4fe69178ff43138117a977e107a5fc7d402603a0825a296b531f246b3f2"
 
-logger = logging.getLogger(__file__)
 tempfile.tempdir = "./tempdir"
 
 def download_pretrained_model():
     """ Download and extract finetuned model from S3 """
     tempdir = tempfile.mkdtemp()
-    logger.info("extracting archive file {} to temp dir {}".format(FINE_TUNED_BOT, tempdir))
     with tarfile.open(FINE_TUNED_BOT, 'r:gz') as archive:
         archive.extractall(tempdir)
     return tempdir
@@ -41,15 +39,12 @@ def get_dataset(tokenizer, dataset_path, dataset_cache):
     print("CACHE:", dataset_cache)
     # Me: may not need if file is on machine, might need to store it for deployment
     if dataset_cache and os.path.isfile(dataset_cache):
-        logger.info("Load tokenized dataset from cache at %s", dataset_cache)
         dataset = torch.load(dataset_cache)
     else:
-        logger.info("Download dataset from %s", dataset_path)
         personachat_file = cached_path(dataset_path) # from transformers import cached_path
         with open(personachat_file, "r", encoding="utf-8") as f:
             dataset = json.loads(f.read())
 
-        logger.info("Tokenize and encode the dataset")
         def tokenize(obj):
             if isinstance(obj, str):
                 return tokenizer.convert_tokens_to_ids(tokenizer.tokenize(obj))
