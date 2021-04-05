@@ -42,7 +42,6 @@ no_sample = False
 def initialise():
     model_checkpoint = download_pretrained_model()
 
-    # Fine-Tuning
     tokenizer_class, model_class = (OpenAIGPTTokenizer, OpenAIGPTLMHeadModel)
     tokenizer = tokenizer_class.from_pretrained(model_checkpoint)
     model = model_class.from_pretrained(model_checkpoint)
@@ -148,24 +147,3 @@ def sample_sequence(personality, history, tokenizer, model, current_output=None)
         current_output.append(prev.item())
 
     return current_output
-
-
-"""
-if __name__ == "__main__":
-    run()
-    history = []
-    while True:
-        raw_text = input(">>> ")
-        while not raw_text:
-            print('Prompt should not be empty!')
-            raw_text = input(">>> ")
-        history.append(tokenizer.encode(raw_text))
-        with torch.no_grad():
-            # GETTING REPLY
-            out_ids = sample_sequence(personality, history, tokenizer, model, args)
-        history.append(out_ids)
-        history = history[-(2*args.max_history+1):]
-        out_text = tokenizer.decode(out_ids, skip_special_tokens=True)
-        #return out_text
-        #print(out_text)
-"""
