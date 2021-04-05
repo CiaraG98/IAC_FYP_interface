@@ -51,7 +51,8 @@ def initialise():
     logger.info(pformat(args))
 
     s = "Runs as far as download"
-
+    return s
+    """
     if args.model_checkpoint == "":
         if args.model == 'gpt2':
             raise ValueError("Interacting with GPT2 requires passing a finetuned model_checkpoint")
@@ -66,7 +67,7 @@ def initialise():
 
     
     return s
-    """
+    
     # Fine-Tuning
     logger.info("Get pretrained model and tokenizer")
     tokenizer_class, model_class = (OpenAIGPTTokenizer, OpenAIGPTLMHeadModel)
