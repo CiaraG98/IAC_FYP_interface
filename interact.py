@@ -49,6 +49,8 @@ def initialise():
     logger = logging.getLogger(__file__)
     logger.info(pformat(args))
 
+    s = "Runs as far as download"
+
     if args.model_checkpoint == "":
         if args.model == 'gpt2':
             raise ValueError("Interacting with GPT2 requires passing a finetuned model_checkpoint")
@@ -61,7 +63,7 @@ def initialise():
     	torch.random.manual_seed(args.seed)
     	torch.cuda.manual_seed(args.seed)
 
-    s = "Runs as far as #fine-tuning"
+    
     return s
     """
     # Fine-Tuning
