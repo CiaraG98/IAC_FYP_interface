@@ -13,3 +13,7 @@ resources:
 
 readiness_check:
  app_start_timeout_sec: 600
+
+handlers:
+- url: /static
+  static_dir: static

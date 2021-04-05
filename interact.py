@@ -28,7 +28,8 @@ PERSONA_KEYWORDS = {
 
 def initialise():
     s = "Runs as far as argparser"
-    """Initialise onjects for model"""
+    return s
+    """
     parser = ArgumentParser()
     parser.add_argument("--dataset_path", type=str, default="", help="Path or url of the dataset. If empty download from S3.")
     parser.add_argument("--dataset_cache", type=str, default='./dataset_cache', help="Path or url of the dataset cache")
@@ -51,8 +52,7 @@ def initialise():
     logger.info(pformat(args))
 
     s = "Runs as far as download"
-    return s
-    """
+    
     if args.model_checkpoint == "":
         if args.model == 'gpt2':
             raise ValueError("Interacting with GPT2 requires passing a finetuned model_checkpoint")
