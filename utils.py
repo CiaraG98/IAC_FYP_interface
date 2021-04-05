@@ -13,7 +13,6 @@ import torch
 
 from transformers import cached_path
 
-from read_bucket import get_model
 
 #PERSONACHAT_URL = "https://s3.amazonaws.com/datasets.huggingface.co/personachat/personachat_self_original.json"
 PERSONACHAT_URL = "./celebs_dialog_dataset.json"
@@ -27,7 +26,6 @@ tempfile.tempdir = "./tempdir"
 
 def download_pretrained_model():
     """ Download and extract finetuned model from S3 """
-    get_model()
     tempdir = tempfile.mkdtemp()
     logger.info("extracting archive file {} to temp dir {}".format(FINE_TUNED_BOT, tempdir))
     with tarfile.open(FINE_TUNED_BOT, 'r:gz') as archive:
