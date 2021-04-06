@@ -35,7 +35,6 @@
                 el: '#WebContainer',
                 data: {
                     bot_input: '',
-                    bot_initialised: false,
                     user_answer: '',
                     current_key: ''
                 },
@@ -57,6 +56,9 @@
                 "justin": ["Justin Bieber", "justin bieber"]
             };
 
+            let bot_initialised = false;
+            let has_persona = false;
+
             function checkGuess(){
                 let options = answers[this.current_key];
                 for(a in options){
@@ -68,28 +70,42 @@
             }
 
             function startBot(){
-                append_messages("Give me a second...", true);
-                console.log("Starting Bot...");
-                fetch('/start_bot').then(function(response){
-                    console.log(response);
-                    return response.json();
-                }).then(function(json){
-                    console.log(json);
-                    append_messages("I'm ready! Get me a personality.", true);
-                });
-                this.bot_initialised = true;
+                if(bot_initialised == false){
+                    append_messages("Give me a second...", true);
+                    console.log("Starting Bot...");
+                    fetch('/start_bot').then(function(response){
+                        return response.json();
+                    }).then(function(json){
+                        console.log(json);
+                        if(json.status = "Bot Successfully Started"){
+                            bot_initialised = true;
+                            append_messages("I'm ready! Get me a personality.", true);
+                        }
+                        else{
+                            append_messages("Oh, something doesn't feel right. Try starting me up again.", true);
+                        }
+                        
+                    });
+                }
+                else{
+                    append_messages("Hey, I'm awake you don't need to press that!", true);
+                }
             }
 
             function get_persona(){
-                if(this.bot_initialised){
+                has_persona = false;
+                if(bot_initialised){
                     console.log("get_persona Called...");
                     fetch('/get_persona').then(function(response){
                         return response.json();
                     }).then(function(json){
-                        console.log(json);
-                        this.current_key = json.key;
-                        append_messages(json.persona, true);
-                        checkGuess();
+                        if(json.status == 'success'){
+                            has_persona = true;
+                            console.log(json);
+                            this.current_key = json.key;
+                            append_messages(json.persona, true);
+                            checkGuess();
+                        }
                     });
                 }
                 else{
@@ -98,21 +114,27 @@
             }
 
             function reply_to_bot(){
-                append_messages(this.bot_input, false);
-                fetch('/reply_to_bot', {
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    method: 'POST',
-                    body: JSON.stringify({
-                        "user_reply" : this.bot_input
-                    })
-                }).then(function(response){
-                    return response.json();
-                }).then(function(json){
-                    console.log(json);
-                    append_messages(json.reply, true);
-                });
+                if(has_persona){
+                    append_messages(this.bot_input, false);
+                    fetch('/reply_to_bot', {
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        method: 'POST',
+                        body: JSON.stringify({
+                            "user_reply" : this.bot_input
+                        })
+                    }).then(function(response){
+                        return response.json();
+                    }).then(function(json){
+                        console.log(json);
+                        append_messages(json.reply, true);
+                    });
+                }
+                else{
+                    append_messages("I am not ready yet. I need a persona.", true);
+                }
+                
             }
 
             function append_messages(text, isBot){

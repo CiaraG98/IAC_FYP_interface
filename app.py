@@ -4,7 +4,6 @@ from interact import get_personality, reply, initialise
 app = Flask(__name__)
 tokenizer = None
 model = None
-args = None
 history = None
 personality = None
 
@@ -29,7 +28,7 @@ def start_bot():
 def get_persona():
     global personality
     persona, personality, key = get_personality(tokenizer)
-    message = {'persona': persona, 'key': key}
+    message = {'status': 'success', 'persona': persona, 'key': key}
     return jsonify(message)
 
 @app.route("/reply_to_bot", methods=['POST', 'GET'])

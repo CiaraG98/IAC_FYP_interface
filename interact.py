@@ -69,7 +69,6 @@ def get_personality(tokenizer):
 def reply(input_text, tokenizer, history, personality, model):
     history.append(tokenizer.encode(input_text))
     with torch.no_grad():
-        # GETTING REPLY
         out_ids = sample_sequence(personality, history, tokenizer, model)
     history.append(out_ids)
     history = history[-(2*max_history+1):]
