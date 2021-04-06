@@ -114,8 +114,8 @@
             }
 
             function reply_to_bot(){
+                append_messages(this.bot_input, false);
                 if(has_persona){
-                    append_messages(this.bot_input, false);
                     fetch('/reply_to_bot', {
                         headers: {
                             'Content-Type': 'application/json'
