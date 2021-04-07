@@ -39,6 +39,10 @@ top_k = 0
 top_p = 0.9
 no_sample = False
 
+# tokenizer and model
+model = None
+tokenizer = None
+
 def get_persona_key(persona):
     for p in PERSONA_KEYWORDS.keys():
         if p in persona:
@@ -46,17 +50,21 @@ def get_persona_key(persona):
 
 
 def initialise():
+    global tokenizer
+    global model
     model_checkpoint = download_pretrained_model()
     tokenizer_class, model_class = (OpenAIGPTTokenizer, OpenAIGPTLMHeadModel)
     tokenizer = tokenizer_class.from_pretrained(model_checkpoint)
+    print(tokenizer)
     model = model_class.from_pretrained(model_checkpoint)
     model.to(this_device)
     add_special_tokens_(model, tokenizer)
     
-    return tokenizer, model
+    return 'OK'
     
 
-def get_personality(tokenizer):
+def get_personality():
+    print(tokenizer)
     dataset = torch.load(dataset_cache)
     personalities = [dialog["personality"] for dataset in dataset.values() for dialog in dataset]
     personality = random.choice(personalities)
@@ -64,10 +72,10 @@ def get_personality(tokenizer):
     return tokenizer.decode(chain(*personality)), personality, persona_key
 
 
-def reply(input_text, tokenizer, history, personality, model):
+def reply(input_text, history, personality):
     history.append(tokenizer.encode(input_text))
     with torch.no_grad():
-        out_ids = sample_sequence(personality, history, tokenizer, model)
+        out_ids = sample_sequence(personality, history)
     history.append(out_ids)
     history = history[-(2*max_history+1):]
     out_text = tokenizer.decode(out_ids, skip_special_tokens=True)
@@ -113,7 +121,7 @@ def top_filtering(logits, top_k=0., top_p=0.9, threshold=-float('Inf'), filter_v
     return logits
 
 
-def sample_sequence(personality, history, tokenizer, model, current_output=None):
+def sample_sequence(personality, history, current_output=None):
     special_tokens_ids = tokenizer.convert_tokens_to_ids(SPECIAL_TOKENS)
     if current_output is None:
         current_output = []
