@@ -27,7 +27,7 @@ PERSONA_KEYWORDS = {
 }
 
 dataset_path = ""
-dataset_cache = "./dataset_cache"
+dataset_cache = "./dataset_cache_OpenAIGPTTokenizer"
 this_model = "openai-gpt"
 max_history = 2
 this_device = "cpu"
@@ -39,27 +39,25 @@ top_k = 0
 top_p = 0.9
 no_sample = False
 
-def initialise():
-    model_checkpoint = download_pretrained_model()
-
-    tokenizer_class, model_class = (OpenAIGPTTokenizer, OpenAIGPTLMHeadModel)
-    tokenizer = tokenizer_class.from_pretrained(model_checkpoint)
-    model = model_class.from_pretrained(model_checkpoint)
-    model.to(this_device)
-    add_special_tokens_(model, tokenizer)
-    history = []
-
-    return tokenizer, model, history
-    
-
 def get_persona_key(persona):
     for p in PERSONA_KEYWORDS.keys():
         if p in persona:
             return PERSONA_KEYWORDS[p]
 
 
+def initialise():
+    model_checkpoint = download_pretrained_model()
+    tokenizer_class, model_class = (OpenAIGPTTokenizer, OpenAIGPTLMHeadModel)
+    tokenizer = tokenizer_class.from_pretrained(model_checkpoint)
+    model = model_class.from_pretrained(model_checkpoint)
+    model.to(this_device)
+    add_special_tokens_(model, tokenizer)
+    
+    return tokenizer, model
+    
+
 def get_personality(tokenizer):
-    dataset = get_dataset(tokenizer, dataset_path, dataset_cache)
+    dataset = torch.load(dataset_cache)
     personalities = [dialog["personality"] for dataset in dataset.values() for dialog in dataset]
     personality = random.choice(personalities)
     persona_key = get_persona_key(tokenizer.decode(chain(*personality)))
@@ -73,7 +71,7 @@ def reply(input_text, tokenizer, history, personality, model):
     history.append(out_ids)
     history = history[-(2*max_history+1):]
     out_text = tokenizer.decode(out_ids, skip_special_tokens=True)
-    return out_text
+    return out_text, history
 
 
 def top_filtering(logits, top_k=0., top_p=0.9, threshold=-float('Inf'), filter_value=-float('Inf')):

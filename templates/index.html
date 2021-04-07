@@ -93,6 +93,9 @@
             }
 
             function get_persona(){
+                if(has_persona){
+                    append_messages("New personality coming right up!", true);
+                }
                 has_persona = false;
                 if(bot_initialised){
                     console.log("get_persona Called...");

@@ -15,8 +15,7 @@ def home():
 def start_bot():
     global tokenizer
     global model
-    global history
-    tokenizer, model, history = initialise()
+    tokenizer, model = initialise()
     if tokenizer != None:
         message = {'status': "Bot Successfully Started"}
         return jsonify(message)
@@ -26,16 +25,19 @@ def start_bot():
 
 @app.route("/get_persona", methods=['GET'])
 def get_persona():
+    global history
     global personality
+    history = []
     persona, personality, key = get_personality(tokenizer)
     message = {'status': 'success', 'persona': persona, 'key': key}
     return jsonify(message)
 
 @app.route("/reply_to_bot", methods=['POST', 'GET'])
 def reply_to_bot():
+    global history
     input = request.get_json()
     if personality != None:
-        bot_reply = reply(input["user_reply"], tokenizer, history, personality, model)
+        bot_reply, history = reply(input["user_reply"], tokenizer, history, personality, model)
         return jsonify({'reply': bot_reply})
 
 
