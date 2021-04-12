@@ -12,12 +12,16 @@
             <!--Header & Buttons-->
             <img src="/static/images/logo.png" alt="tcd logo" id="tcdLogo">
             <div id='title'>I'm a Celebrity</div>
-            <!--<button v-on:click="show_answer_field" id="answer_button">Ready to Guess</button>-->
+            <button v-on:click="show_answer_field" id="answer_button">Guess Who<i class="fas fa-question"></i></button>
+            <div id='guess_popup'>
+                <input v-model='user_answer' placeholder="Your Guess" id='guess'>
+                <button v-on:click='check_guess' id='check_user_guess'>Submit</button>
+                <button v-on:click='close_guess' id='cancel'>Close</button>
+                <p id='response'></p>
+            </div>
+            <button id='feedback_button'><a href='https://forms.gle/UjUnRsCGidbGtQSo9' target='_blank'>Give Feedback</a></button>
             <button v-on:click="get_persona" id='bot_button'>Get Personality <i class="fas fa-brain"></i></button>
             <button v-on:click="start_bot" id='start_button'>Start Bot <i class="fas fa-robot"></i></button>
-            <button v-on:click="show_about" id='a_button'>About <i class="fas fa-book-open"></i></button>
-            <button v-on:click="show_instructions" id='i_button'>Instructions <i class="fas fa-info-circle"></i></button>
-            <div id='popup'>Popup</div>
             <!--Bot Start-->
             <div id='bot_frame'>
                 <div id='bot_body'>
@@ -36,16 +40,20 @@
                 data: {
                     bot_input: '',
                     user_answer: '',
-                    current_key: ''
                 },
                 methods: {
                     start_bot: startBot,
                     get_persona: get_persona,
                     reply_to_bot: reply_to_bot,
-                    append_messages: append_messages
+                    append_messages: append_messages,
+                    show_answer_field: showGuess,
+                    check_guess: checkGuess,
+                    close_guess: closeGuess,
                 }
             });
             
+            let current_key = '';
+            let this_answer = '';
             let answers = {
                 "shane": ["Shane Dawson", "shane dawson"],
                 "ariana": ["Ariana Grande", "ariana grande"],
@@ -59,14 +67,31 @@
             let bot_initialised = false;
             let has_persona = false;
 
+            function showGuess(){
+                let response = document.getElementById('response');
+                response.innerHTML = "";
+                let popup = document.getElementById('guess_popup');
+                popup.style.display = 'block';
+            }
+
+            function closeGuess(){
+                let popup = document.getElementById('guess_popup');
+                popup.style.display = 'none';
+            }
+
             function checkGuess(){
-                let options = answers[this.current_key];
-                for(a in options){
-                    if(this.user_answer == a){
-                        console.log("correct");
+                this_answer = this.user_answer;
+                let response = document.getElementById('response');
+                let options = answers[current_key];
+                for(let i = 0; i < options.length; i++){
+                    if(this_answer.localeCompare(options[i] == 0)){
+                        response.innerHTML = 'Correct!';
+                        console.log("user answer correct");
+                        return;
                     }
                 }
-                console.log("incorrect");
+                response.innerHTML = 'Nope! Try again.';
+                console.log("user answer incorrect");
             }
 
             function startBot(){
@@ -104,10 +129,8 @@
                     }).then(function(json){
                         if(json.status == 'success'){
                             has_persona = true;
-                            console.log(json);
-                            this.current_key = json.key;
+                            current_key = json.key;
                             append_messages(json.persona, true);
-                            checkGuess();
                         }
                     });
                 }
@@ -130,7 +153,6 @@
                     }).then(function(response){
                         return response.json();
                     }).then(function(json){
-                        console.log(json);
                         append_messages(json.reply, true);
                     });
                 }

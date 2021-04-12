@@ -55,7 +55,6 @@ def initialise():
     model_checkpoint = download_pretrained_model()
     tokenizer_class, model_class = (OpenAIGPTTokenizer, OpenAIGPTLMHeadModel)
     tokenizer = tokenizer_class.from_pretrained(model_checkpoint)
-    print(tokenizer)
     model = model_class.from_pretrained(model_checkpoint)
     model.to(this_device)
     add_special_tokens_(model, tokenizer)
@@ -64,7 +63,6 @@ def initialise():
     
 
 def get_personality():
-    print(tokenizer)
     dataset = torch.load(dataset_cache)
     personalities = [dialog["personality"] for dataset in dataset.values() for dialog in dataset]
     personality = random.choice(personalities)
