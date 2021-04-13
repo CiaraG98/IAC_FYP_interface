@@ -63,7 +63,7 @@ body, html{
 }
 
 
-#feedback_button:hover, #start_button:hover, #bot_button:hover, #a_button:hover, #i_button:hover, #answer_button:hover, #guess_popup #check_user_guess:hover, #guess_popup #cancel:hover{
+#guess_popup #show_persona:hover, #feedback_button:hover, #start_button:hover, #bot_button:hover, #a_button:hover, #i_button:hover, #answer_button:hover, #guess_popup #check_user_guess:hover, #guess_popup #cancel:hover{
     cursor: pointer;
     font-style: italic;
 }
@@ -188,7 +188,7 @@ body, html{
     margin-top: 10%;
     width: 65%;
 }
-#guess_popup #check_user_guess, #guess_popup #cancel{
+#guess_popup #check_user_guess, #guess_popup #cancel, #guess_popup #show_persona{
     border-radius: 5px;
     height: 20%;
     width: 30%;
@@ -205,10 +205,18 @@ body, html{
     height: 15%;
     text-align: center;
     margin-left: 20%;
-    margin-top: 5%;
+    margin-top: 10%;
     color: tomato;
     font-size: 18px;
+    background-color: teal;
 }
+#guess_popup #show_persona{
+    margin-left: 33%;
+    height: 22%;
+    width: 35%;
+    margin-top: 3%;
+}
+
 
 
 @media only screen and (max-width: 500px){

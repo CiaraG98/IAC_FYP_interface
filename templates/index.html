@@ -17,9 +17,10 @@
                 <input v-model='user_answer' placeholder="Your Guess" id='guess'>
                 <button v-on:click='check_guess' id='check_user_guess'>Submit</button>
                 <button v-on:click='close_guess' id='cancel'>Close</button>
+                <button v-on:click='reveal_persona' id='show_persona'>Show Persona</button>
                 <p id='response'></p>
             </div>
-            <button id='feedback_button'><a href='https://forms.gle/UjUnRsCGidbGtQSo9' target='_blank'>Give Feedback</a></button>
+            <button id='feedback_button'><a href='https://forms.gle/cc2UGa8EBqvEHUvH9' target='_blank'>Give Feedback</a></button>
             <button v-on:click="get_persona" id='bot_button'>Get Personality <i class="fas fa-brain"></i></button>
             <button v-on:click="start_bot" id='start_button'>Start Bot <i class="fas fa-robot"></i></button>
             <!--Bot Start-->
@@ -49,6 +50,7 @@
                     show_answer_field: showGuess,
                     check_guess: checkGuess,
                     close_guess: closeGuess,
+                    reveal_persona: revealPersona,
                 }
             });
             
@@ -66,6 +68,11 @@
 
             let bot_initialised = false;
             let has_persona = false;
+
+            function revealPersona(){
+                let response = document.getElementById('response');
+                response.innerHTML = answers[current_key][0];
+            }
 
             function showGuess(){
                 let response = document.getElementById('response');
