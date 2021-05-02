@@ -1,4 +1,4 @@
-# to_deploy_fyp
+# IAC_FYP_interface
 This repo contains the "I'm a Celebrity" chatbot interface. This web app is made using the Flask python framework.
 ## Instructions for running the bot
 After cloning the project be sure to install the packages needed from requirements.txt using pip.
