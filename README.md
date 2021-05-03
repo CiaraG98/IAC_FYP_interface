@@ -6,6 +6,10 @@ After cloning the project be sure to install the packages needed from requiremen
 python -m pip install -r requirements.txt
 python -m spacy download en
 ```
+Before running the bot first change into the project directory and download the chatbot model (400MB) using Git LFS.
+```
+git lfs pull
+```
 ## Running the interface
 This project was made and run with python 3.8.0 so there could be some dependency errors with the packages depending on the version used. Generally anything above python 3.6.0 should work.
 
