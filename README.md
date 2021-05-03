@@ -21,4 +21,4 @@ If you want to guess who the celebrity is click 'Guess Who'.
 If you need a hint click 'Need a hint?'.
 If you want to talk to a different celebrity just click 'Get Personality' again.
 ## Open-Sourced Code
-Some code used in developing this bot was sourced from the Hugging Face Project [Transfer-Learning-Conversational-AI](https://github.com/huggingface/transfer-learning-conv-ai)
+**train.py**, **interact.py**, **utils.py**, **config.json** & **vocab.json** were sourced from the Hugging Face Project [Transfer-Learning-Conversational-AI](https://github.com/huggingface/transfer-learning-conv-ai)
