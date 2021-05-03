@@ -9,20 +9,10 @@ certifi==2020.12.5
 chardet==4.0.0
 click==7.1.2
 cymem==2.0.5
-en-core-web-sm @ https://github.com/explosion/spacy-models/releases/download/en_core_web_sm-3.0.0/en_core_web_sm-3.0.0-py3-none-any.whl
 filelock==3.0.12
 Flask==1.1.2
 flatbuffers==1.12
 gast==0.3.3
-google-auth==1.28.0
-google-auth-oauthlib==0.4.4
-google-pasta==0.2.0
-google-api-core==1.26.3
-google-cloud-core==1.6.0
-google-cloud-storage==1.37.0
-google-crc32c==1.1.2
-google-resumable-media==1.2.0
-googleapis-common-protos==1.53.0
 grpcio==1.32.0
 gunicorn==20.1.0
 h5py==2.10.0
