@@ -20,6 +20,7 @@
                 <button v-on:click='reveal_persona' id='show_persona'>Show Persona</button>
                 <p id='response'></p>
             </div>
+            <button v-on:click="send_hint" id='hint_button'>Need a Hint?</button>
             <button id='feedback_button'><a href='https://forms.gle/cc2UGa8EBqvEHUvH9' target='_blank'>Give Feedback</a></button>
             <button v-on:click="get_persona" id='bot_button'>Get Personality <i class="fas fa-brain"></i></button>
             <button v-on:click="start_bot" id='start_button'>Start Bot <i class="fas fa-robot"></i></button>
@@ -51,6 +52,7 @@
                     check_guess: checkGuess,
                     close_guess: closeGuess,
                     reveal_persona: revealPersona,
+                    send_hint: sendHint,
                 }
             });
             
@@ -68,7 +70,22 @@
 
             let bot_initialised = false;
             let has_persona = false;
-            let this_persona = ''
+            let current_persona = []
+
+            function sendHint(){
+                if(has_persona){
+                    if(current_persona.length > 0){
+                    append_messages(current_persona.pop(), true);
+                    }
+                    else{
+                        append_messages("Out of hints! Sorry.", true);
+                    }
+                }
+                else{
+                    append_messages("I need a persona first! Click 'Get Personality'.", true);
+                }
+                
+            }
 
             function revealPersona(){
                 let response = document.getElementById('response');
@@ -88,11 +105,12 @@
             }
 
             function checkGuess(){
+                console.log(this.user_answer);
                 this_answer = this.user_answer;
                 let response = document.getElementById('response');
                 let options = answers[current_key];
                 for(let i = 0; i < options.length; i++){
-                    if(this_answer.localeCompare(options[i] == 0)){
+                    if(this_answer == options[i]){
                         response.innerHTML = 'Correct!';
                         console.log("user answer correct");
                         return;
@@ -138,9 +156,10 @@
                         if(json.status == 'success'){
                             has_persona = true;
                             current_key = json.key;
-                            //append_messages(json.persona, true);
-                            this_persona = json.persona;
-                            append_messages("Okay I'm ready. Let's Chat", true);
+                            current_persona = json.persona.split('.');
+                            current_persona.pop();
+                            console.log(current_persona);
+                            append_messages("I'm ready. Let's chat.", true);
                         }
                     });
                 }
@@ -202,6 +221,7 @@
                 if(event.keyCode === 13){
                     document.getElementById('send').click();
                     input.value = "";
+                    this.bot_input = '';
                 }
             });
         </script>

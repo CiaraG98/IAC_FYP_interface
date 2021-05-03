@@ -17,7 +17,6 @@ body, html{
     margin-left: 10px;
     float: left;
     position: absolute;
-    display: none;
 }
 #title{
     width: 40%;
@@ -28,7 +27,8 @@ body, html{
     font-family: Tahoma;
 }
 
-#start_button, #bot_button{
+/*buttons*/
+#start_button, #bot_button, #hint_button{
     width: 12%;
     height: 12%;
     border-radius: 8px;
@@ -63,8 +63,11 @@ body, html{
     margin-top: 200px;
 }
 
+#hint_button{
+    margin-top: 300px;
+}
 
-#guess_popup #show_persona:hover, #feedback_button:hover, #start_button:hover, #bot_button:hover, #a_button:hover, #i_button:hover, #answer_button:hover, #guess_popup #check_user_guess:hover, #guess_popup #cancel:hover{
+#hint_button:hover, #guess_popup #show_persona:hover, #feedback_button:hover, #start_button:hover, #bot_button:hover, #a_button:hover, #i_button:hover, #answer_button:hover, #guess_popup #check_user_guess:hover, #guess_popup #cancel:hover{
     cursor: pointer;
     font-style: italic;
 }
@@ -74,6 +77,7 @@ body, html{
     color: white;
 }
 
+#feedback_button{display: none;}
 
 #bot_frame{
     z-index: 1;
@@ -208,6 +212,7 @@ body, html{
     margin-left: 20%;
     margin-top: 10%;
     color: white;
+    font-style: bold;
     font-size: 18px;
     background-color: teal;
 }
@@ -221,7 +226,7 @@ body, html{
 
 
 @media only screen and (max-width: 500px){
-    #bot_button, #start_button{
+    #bot_button, #start_button, #hint_button{
         margin-left: 5%;
         width: 10%;
         font-size: 8px;    
@@ -231,6 +236,7 @@ body, html{
         font-size: 10px;
         right: 4%;   
     }
+    #feedback_button{display: none;}
     #bot_frame{
         margin-left: 10px;
         width: 70%;
@@ -254,7 +260,7 @@ body, html{
 }
 
 @media only screen and (max-width: 600px){
-    #bot_button, #start_button{
+    #bot_button, #start_button, #hint_button{
         margin-left: 5%;
         width: 10%;
         font-size: 8px;    
@@ -264,6 +270,7 @@ body, html{
         font-size: 10px;
         right: 4%;   
     }
+    #feedback_button{display: none;}
     #bot_frame{
         margin-left: 10px;
         width: 70%;
@@ -293,7 +300,7 @@ body, html{
 }
 
 @media only screen and (max-width: 730px){
-    #bot_button, #start_button{
+    #bot_button, #start_button, #hint_button{
         margin-left: 5%;
         width: 15%;
         font-size: 14px;    
@@ -303,6 +310,7 @@ body, html{
         font-size: 14px;
         right: 4%;   
     }
+    #feedback_button{display: none;}
     #bot_frame{
         margin-left: 25%;
         width: 55%;
@@ -329,7 +337,7 @@ body, html{
 }
 
 @media only screen and (max-width: 800px){
-    #bot_button, #start_button{
+    #bot_button, #start_button, #hint_button{
         margin-left: 5%;
         width: 15%;
         font-size: 14px;    
@@ -339,6 +347,7 @@ body, html{
         font-size: 14px;
         right: 4%;   
     }
+    #feedback_button{display: none;}
     #bot_frame{
         margin-left: 25%;
         width: 55%;
@@ -365,7 +374,7 @@ body, html{
 }
 
 @media only screen and (max-width: 900px){
-    #bot_button, #start_button{
+    #bot_button, #start_button, #hint_button{
         margin-left: 5%;
         width: 15%;
         font-size: 14px;    
@@ -375,6 +384,7 @@ body, html{
         font-size: 14px;
         right: 4%;   
     }
+    #feedback_button{display: none;}
     #bot_frame{
         margin-left: 25%;
         width: 55%;
@@ -394,7 +404,7 @@ body, html{
 }
 
 @media only screen and (max-width: 1000px){
-    #bot_button, #start_button{
+    #bot_button, #start_button, #hint_button{
         margin-left: 5%;
         width: 15%;
         font-size: 14px;    
@@ -404,6 +414,7 @@ body, html{
         font-size: 14px;
         right: 4%;   
     }
+    #feedback_button{display: none;}
     #bot_frame{
         margin-left: 28%;
         width: 45%;
@@ -420,7 +431,7 @@ body, html{
 }
 
 @media only screen and (max-width: 1100px){
-    #bot_button, #start_button{
+    #bot_button, #start_button, #hint_button{
         margin-left: 5%;
         width: 15%;
         font-size: 14px;    
@@ -430,6 +441,7 @@ body, html{
         font-size: 14px;
         right: 4%;   
     }
+    #feedback_button{display: none;}
     #bot_frame{
         margin-left: 30%;
         width: 40%;
