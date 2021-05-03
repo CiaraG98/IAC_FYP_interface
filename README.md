@@ -1,12 +1,12 @@
 # IAC_FYP_interface
 This repo contains the "I'm a Celebrity" chatbot interface. This web app is made using the Flask python framework.
 ## Installation Requirements
-After cloning the project be sure to install the packages needed from requirements.txt using pip.
+After cloning the project be sure to install the packages needed from requirements.txt using pip. It also might be useful to create a python venv to run this.
 ```
 python -m pip install -r requirements.txt
 python -m spacy download en
 ```
-Before running the bot first change into the project directory and download the chatbot model (400MB) using Git LFS.
+Before running the bot first cd into the project directory and download the chatbot model (400MB) using Git LFS.
 ```
 git lfs pull
 ```
