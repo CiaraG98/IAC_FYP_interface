@@ -17,6 +17,7 @@ body, html{
     margin-left: 10px;
     float: left;
     position: absolute;
+    display: none;
 }
 #title{
     width: 40%;
@@ -206,7 +207,7 @@ body, html{
     text-align: center;
     margin-left: 20%;
     margin-top: 10%;
-    color: tomato;
+    color: white;
     font-size: 18px;
     background-color: teal;
 }

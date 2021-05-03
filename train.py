@@ -49,7 +49,7 @@ def pad_dataset(dataset, padding=0):
 def add_special_tokens_(model, tokenizer):
     """ Add special tokens to the tokenizer and the model if they have not already been added. """
     orig_num_tokens = len(tokenizer.encoder)
-    num_added_tokens = tokenizer.add_special_tokens(ATTR_TO_SPECIAL_TOKEN) # doesn't add if they are already there
+    num_added_tokens = tokenizer.add_special_tokens(ATTR_TO_SPECIAL_TOKEN) 
     if num_added_tokens > 0:
         model.resize_token_embeddings(new_num_tokens=orig_num_tokens + num_added_tokens)
 
@@ -144,6 +144,7 @@ def train():
 
     print("DEVICE:", args.device)
     print("DATASET:", args.dataset_path)
+    print("CACHE:", args.dataset_cache)
 
     # Initialize distributed training if needed
     args.distributed = (args.local_rank != -1)
@@ -258,6 +259,8 @@ def train():
         torch.save(args, log_dir + '/model_training_args.bin')
         getattr(model, 'module', model).config.to_json_file(os.path.join(log_dir, CONFIG_NAME))
         tokenizer.save_pretrained(log_dir)
+        print("LOGDIR:", log_dir)
+
 
     # Run the training
     trainer.run(train_loader, max_epochs=args.n_epochs)
