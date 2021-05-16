@@ -18,6 +18,7 @@ To run the interface run this in the command line:
 python flask_app.py
 ```
 This should start the flask server and provide a local host address: http://127.0.0.1:5000/ where the interface should be running.
+You can also access the already deployed interface at (https://c-fyp2021.scss.tcd.ie/)
 ## Interacting with the Bot
 Click 'Start Bot' to initialise the bot.
 Click 'Get Personality' for the bot to randomly select a celebrity persona.
